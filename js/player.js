@@ -1,10 +1,11 @@
 function Player(x, y) {
 	this.coordinates = {x: x, y: y};
+	Game.map.drawFOV(Game.display, this);
 	this.draw();
 }
 
 Player.prototype.draw = function() {
-	Game.display.draw(this.coordinates.x, this.coordinates.y, "@", "#ff0");
+	Game.display.draw(this.coordinates.x, this.coordinates.y, "@", "#ff0", "#660");
 }
 
 Player.prototype.act = function() {
@@ -21,12 +22,17 @@ Player.prototype.handleEvent = function(e) {
 	if (!(e.keyCode in keyMap)) return;
 
 	var delta = ROT.DIRS[4][keyMap[e.keyCode]];
-	var newCoordinates = {x: this.coordinates.x + delta[0], y: this.coordinates.y + delta[1]}
+	var newCoordinates = {x: this.coordinates.x + delta[0], y: this.coordinates.y + delta[1]};
 	if (!(Game.map.isAFloorSpace(newCoordinates.x, newCoordinates.y))) return;
 
 	Game.map.drawAt(this.coordinates.x, this.coordinates.y, Game.display);
 	this.coordinates = newCoordinates;
+
+	Game.map.drawAll(Game.display);
+	Game.map.drawFOV(Game.display, this);
+
 	this.draw();
+
 	window.removeEventListener("keydown", this);
 	Game.engine.unlock();
 }

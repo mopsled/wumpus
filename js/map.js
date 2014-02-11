@@ -8,6 +8,16 @@ function Map() {
 		}
 	};
 
+	this.drawFOV = function(display, player) {
+		var fov = new ROT.FOV.PreciseShadowcasting(this.isAFloorSpace);
+
+		fov.compute(player.coordinates.x, player.coordinates.y, 10, function(x, y, r, visibility) {
+			var tile = tiles[keyify(x, y)];
+			var color = "#660";
+			display.draw(x, y, tile, "#fff", color);
+		});
+	};
+
 	this.drawAt = function(x, y, display) {
 		display.draw(x, y, tiles[keyify(x, y)]);
 	};
@@ -24,7 +34,7 @@ function Map() {
 	};
 
 	this.isAFloorSpace = function(x, y) {
-		return (tiles[keyify(x, y)] == '.');
+		return (tiles[keyify(x, y)] === '.');
 	};
 }
 
@@ -54,7 +64,7 @@ function generateWalls(map) {
 
 	for (var key in map) {
 		coor = coordinatesForKey(key);
-		adjacentCoordinates(coor).forEach(addWalls);
+		adjacentCoordinates(coor.x, coor.y).forEach(addWalls);
 	}
 	return walls;
 }
@@ -68,11 +78,11 @@ function coordinatesForKey(key) {
 	return {x: coorArray[0], y: coorArray[1]};
 }
 
-function adjacentCoordinates(coor) {
+function adjacentCoordinates(x, y) {
 	var adjacent = [];
 	for (var xi = -1; xi <= 1; xi++) {
 		for (var yi = -1; yi <= 1; yi++)  {
-			if (!(xi === 0 && yi === 0)) adjacent.push({x: coor.x + xi, y: coor.y + yi});
+			if (!(xi === 0 && yi === 0)) adjacent.push({x: x + xi, y: y + yi});
 		}
 	}
 	return adjacent;
