@@ -8,13 +8,11 @@ function Map() {
 		}
 	};
 
-	this.drawFOV = function(display, player) {
-		var fov = new ROT.FOV.PreciseShadowcasting(this.isAFloorSpace);
-
-		fov.compute(player.coordinates.x, player.coordinates.y, 10, function(x, y, r, visibility) {
-			var tile = tiles[keyify(x, y)];
+	this.drawFOV = function(fov, display) {
+		fov.forEach(function(coor) {
+			var tile = tiles[keyify(coor.x, coor.y)];
 			var color = "#660";
-			display.draw(x, y, tile, "#fff", color);
+			display.draw(coor.x, coor.y, tile, "#fff", color);
 		});
 	};
 

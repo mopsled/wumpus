@@ -20,4 +20,4 @@ var Game = {
 		this.player = new Player(coor.x, coor.y);
 		scheduler.add(this.player, true);
 	}
-}
+};
