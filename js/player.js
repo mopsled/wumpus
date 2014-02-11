@@ -22,7 +22,7 @@ Player.prototype.handleEvent = function(e) {
 
 	var delta = ROT.DIRS[4][keyMap[e.keyCode]];
 	var newCoordinates = {x: this.coordinates.x + delta[0], y: this.coordinates.y + delta[1]}
-	if (!(Game.map.isAFloorSpace(newCoordinates))) return;
+	if (!(Game.map.isAFloorSpace(newCoordinates.x, newCoordinates.y))) return;
 
 	Game.map.drawAt(this.coordinates.x, this.coordinates.y, Game.display);
 	this.coordinates = newCoordinates;

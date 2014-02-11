@@ -23,8 +23,8 @@ function Map() {
 		return null;
 	};
 
-	this.isAFloorSpace = function(coor) {
-		return (tiles[keyify(coor.x, coor.y)] == '.');
+	this.isAFloorSpace = function(x, y) {
+		return (tiles[keyify(x, y)] == '.');
 	};
 }
 
