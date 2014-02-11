@@ -1,11 +1,30 @@
 var Map = {
 	map: generateMap(),
 
-	drawTo: function(display) {
+	drawAll: function(display) {
 		for (var key in this.map) {
 			coor = coordinatesForKey(key);
 			display.draw(coor.x, coor.y, this.map[key]);
 		}
+	},
+
+	drawAt: function(x, y, display) {
+		display.draw(x, y, this.map[keyify(x, y)]);
+	},
+
+	randomFloorSpace: function() {
+		var allSpaces = Object.keys(this.map).randomize();
+		for (var i = 0; i < allSpaces.length; i++) {
+			var key = allSpaces[i];
+			if (this.map[key] == '.') {
+				return coordinatesForKey(key);
+			}
+		}
+		return null;
+	},
+
+	isAFloorSpace: function(coor) {
+		return (this.map[keyify(coor.x, coor.y)] == '.');
 	}
 }
 
