@@ -1,6 +1,4 @@
-var Util = {
-	drawTextCentered: function(text, y, display) {
-		var textX = Math.floor(display.getOptions().width/2 - text.length/2);
-		display.drawText(textX, y, text)
-	}
-}
+ROT.Display.prototype.drawTextYCentered = function (y, text, maxWidth) {
+	var x = Math.floor(this.getOptions().width/2 - text.length/2);
+	this.drawText(x, y, text, maxWidth);
+};

@@ -1,6 +1,4 @@
 var Menu = {
-	display: null,
-
 	init: function() {
 		this.display = new ROT.Display();
 		document.body.appendChild(this.display.getContainer());
@@ -13,8 +11,8 @@ Menu.drawMenu = function() {
 	var width = this.display.getOptions().width;
 	var height = this.display.getOptions().height;
 
-	Util.drawTextCentered("Hunt the Wumpus", 1, this.display);
-	Util.drawTextCentered("N - New Game", 12, this.display);
+	this.display.drawTextYCentered(1, "Hunt the Wumpus");
+	this.display.drawTextYCentered(12, "N - New Game");
 }
 
 Menu.handleEvent = function(e) {
