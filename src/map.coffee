@@ -6,14 +6,14 @@ class @Map
     @drawAt [x, y] for [x, y] in @tiles.keys()
 
   drawFOV: (fov) =>
-    drawLitTile [x, y], this for [x, y] in fov
+    drawLitTile x, y, this for [x, y] in fov
 
   drawAt: (x, y) =>
     @display.draw x, y, @tiles.get([x, y])
 
   randomFloorSpace: ->
-    floor = (f for f of @tiles when @tiles[f] is '.')
-    coorForKey(floor.randomize()[0])
+    floor = (k for k in @tiles.keys() when @tiles.get(k) is '.')
+    floor.randomize()[0]
 
   isAFloorSpace: (x, y) =>
     @tiles.get([x, y]) == '.'
@@ -32,8 +32,8 @@ class @Map
     wallCoor = ([x, y] for [x, y] in adjacent when floor.get([x, y]) != '.')
     wallCoor
 
-  drawLitTile = (key, map) ->
-    map.display.draw coorForKey(key)..., map.tiles[key], '#fff', '#660'
+  drawLitTile = (x, y, map) ->
+    map.display.draw x, y, map.tiles.get([x, y]), '#fff', '#660'
 
   adjacentCoordinates = (x, y) ->
     [x + xi, y + yi] for [xi, yi] in ROT.DIRS[8]
