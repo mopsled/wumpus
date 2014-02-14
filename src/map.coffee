@@ -9,14 +9,14 @@ class @Map
     drawLitTile [x, y], this for [x, y] in fov
 
   drawAt: (x, y) =>
-    @display.draw x, y, @tiles[keyify(x, y)]
+    @display.draw x, y, @tiles.get([x, y])
 
   randomFloorSpace: ->
     floor = (f for f of @tiles when @tiles[f] is '.')
     coorForKey(floor.randomize()[0])
 
   isAFloorSpace: (x, y) =>
-    @tiles[keyify(x, y)] == '.'
+    @tiles.get([x, y]) == '.'
 
   generateTiles = () ->
     tiles = new ArrayDictionary
@@ -29,7 +29,7 @@ class @Map
   generateWalls = (floor) ->
     floorCoor = floor.keys()
     adjacent = flatten (adjacentCoordinates(x, y) for [x, y] in floorCoor)
-    wallCoor = ([x, y] for [x, y] in adjacent when floor[keyify(x, y)] != '.')
+    wallCoor = ([x, y] for [x, y] in adjacent when floor.get([x, y]) != '.')
     wallCoor
 
   drawLitTile = (key, map) ->

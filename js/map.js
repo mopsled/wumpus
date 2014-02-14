@@ -36,7 +36,7 @@
     };
 
     Map.prototype.drawAt = function(x, y) {
-      return this.display.draw(x, y, this.tiles[keyify(x, y)]);
+      return this.display.draw(x, y, this.tiles.get([x, y]));
     };
 
     Map.prototype.randomFloorSpace = function() {
@@ -55,7 +55,7 @@
     };
 
     Map.prototype.isAFloorSpace = function(x, y) {
-      return this.tiles[keyify(x, y)] === '.';
+      return this.tiles.get([x, y]) === '.';
     };
 
     generateTiles = function() {
@@ -92,7 +92,7 @@
         _results = [];
         for (_i = 0, _len = adjacent.length; _i < _len; _i++) {
           _ref = adjacent[_i], x = _ref[0], y = _ref[1];
-          if (floor[keyify(x, y)] !== '.') {
+          if (floor.get([x, y]) !== '.') {
             _results.push([x, y]);
           }
         }
