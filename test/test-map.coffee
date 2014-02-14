@@ -1,15 +1,15 @@
 describe 'Map', ->
-  describe 'Construction', ->
-    map = new Map {}
+  map = new Map {}
+  describe 'constructor', ->
     tileValues = null
     it 'should have tiles property', ->
       map.should.have.property('tiles')
     it 'should have lots of tiles', ->
-      Object.keys(map.tiles).length.should.be.above(100)
+      map.tiles.keys().length.should.be.above(100)
     it 'should have floor tiles', ->
-      tileValues = (value for _, value of map.tiles)
+      tileValues = (map.tiles.get(c) for c in map.tiles.keys())
       hasFloor = tileValues.some((element) -> element == '.')
       hasFloor.should.be.ok
     it 'should have wall tiles', ->
       hasWall = tileValues.some((element) -> element == '#')
-      hasWall.should.be.ok
+      hasWall.should.be.true

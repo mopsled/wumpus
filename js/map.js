@@ -4,7 +4,7 @@
     __slice = [].slice;
 
   this.Map = (function() {
-    var adjacentCoordinates, coorForKey, drawLitTile, flatten, generateTiles, generateWalls, keyify;
+    var adjacentCoordinates, drawLitTile, flatten, generateTiles, generateWalls;
 
     function Map(display) {
       this.display = display;
@@ -15,10 +15,12 @@
     }
 
     Map.prototype.drawAll = function() {
-      var coor, _results;
+      var x, y, _i, _len, _ref, _ref1, _results;
+      _ref = this.tiles.keys();
       _results = [];
-      for (coor in this.tiles) {
-        _results.push(this.drawAt.apply(this, coorForKey(coor)));
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        _ref1 = _ref[_i], x = _ref1[0], y = _ref1[1];
+        _results.push(this.drawAt([x, y]));
       }
       return _results;
     };
@@ -28,7 +30,7 @@
       _results = [];
       for (_i = 0, _len = fov.length; _i < _len; _i++) {
         _ref = fov[_i], x = _ref[0], y = _ref[1];
-        _results.push(drawLitTile(keyify(x, y), this));
+        _results.push(drawLitTile([x, y], this));
       }
       return _results;
     };
@@ -57,32 +59,25 @@
     };
 
     generateTiles = function() {
-      var differ, key, tiles, _i, _len, _ref;
-      tiles = {};
+      var coor, differ, tiles, _i, _len, _ref;
+      tiles = new ArrayDictionary;
       differ = new ROT.Map.Digger();
       differ.create(function(x, y, wall) {
         if (!wall) {
-          return tiles[keyify(x, y)] = '.';
+          return tiles.set([x, y], '.');
         }
       });
       _ref = generateWalls(tiles);
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        key = _ref[_i];
-        tiles[key] = '#';
+        coor = _ref[_i];
+        tiles.set(coor, '#');
       }
       return tiles;
     };
 
     generateWalls = function(floor) {
-      var adjacent, c, floorCoor, key, wallCoor, x, y, _i, _len, _results;
-      floorCoor = (function() {
-        var _results;
-        _results = [];
-        for (key in floor) {
-          _results.push(coorForKey(key));
-        }
-        return _results;
-      })();
+      var adjacent, floorCoor, wallCoor, x, y;
+      floorCoor = floor.keys();
       adjacent = flatten((function() {
         var _i, _len, _ref, _results;
         _results = [];
@@ -103,25 +98,12 @@
         }
         return _results;
       })();
-      _results = [];
-      for (_i = 0, _len = wallCoor.length; _i < _len; _i++) {
-        c = wallCoor[_i];
-        _results.push(keyify.apply(null, c));
-      }
-      return _results;
+      return wallCoor;
     };
 
     drawLitTile = function(key, map) {
       var _ref;
       return (_ref = map.display).draw.apply(_ref, __slice.call(coorForKey(key)).concat([map.tiles[key]], ['#fff'], ['#660']));
-    };
-
-    keyify = function(x, y) {
-      return x + ',' + y;
-    };
-
-    coorForKey = function(key) {
-      return key.split(',').map(Number);
     };
 
     adjacentCoordinates = function(x, y) {
