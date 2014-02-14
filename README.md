@@ -12,7 +12,7 @@ Written in CoffeeScript, and uses the [rot.js library](http://ondras.github.io/r
 
 The CoffeeScript source files are compiled with `coffee`:
 
-    coffee -co .\js .\src
+    coffee -o .\js .\src
 
 License
 -------
