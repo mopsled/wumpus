@@ -14,7 +14,7 @@ class @Player
   calculateFOV: ->
     fov = []
     shadowcaster = new ROT.FOV.PreciseShadowcasting game.map.isAFloorSpace
-    shadowcaster.compute @coor.x, @coor.y, 10, (x, y) ->
+    shadowcaster.compute @coor.x, @coor.y, 99, (x, y) ->
       fov.push([x, y])
     fov
 

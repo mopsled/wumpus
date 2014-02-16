@@ -25,7 +25,7 @@
       var fov, shadowcaster;
       fov = [];
       shadowcaster = new ROT.FOV.PreciseShadowcasting(game.map.isAFloorSpace);
-      shadowcaster.compute(this.coor.x, this.coor.y, 10, function(x, y) {
+      shadowcaster.compute(this.coor.x, this.coor.y, 99, function(x, y) {
         return fov.push([x, y]);
       });
       return fov;
