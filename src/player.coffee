@@ -19,14 +19,11 @@ class @Player
     fov
 
   handleEvent: (e) ->
-    keymap = {}
-    keymap[ROT.VK_UP] = 0
-    keymap[ROT.VK_RIGHT] = 1
-    keymap[ROT.VK_DOWN] = 2
-    keymap[ROT.VK_LEFT] = 3
+    keymap = makeKeymap()
+
     return if not (e.keyCode of keymap)
 
-    delta = ROT.DIRS[4][keymap[e.keyCode]]
+    delta = ROT.DIRS[8][keymap[e.keyCode]]
     movedCoor = x: @coor.x + delta[0], y: @coor.y + delta[1]
     canMoveToSpace = game.map.isAFloorSpace movedCoor.x, movedCoor.y
     return if not canMoveToSpace
@@ -42,3 +39,15 @@ class @Player
 
     window.removeEventListener 'keydown', this
     game.engine.unlock()
+
+  makeKeymap = ->
+    keymap = {}
+    [keymap[ROT.VK_UP], keymap[ROT.VK_K]] = [0, 0]
+    [keymap[ROT.VK_RIGHT], keymap[ROT.VK_L]] = [2, 2]
+    [keymap[ROT.VK_DOWN], keymap[ROT.VK_J]] = [4, 4]
+    [keymap[ROT.VK_LEFT], keymap[ROT.VK_H]] = [6, 6]
+    keymap[ROT.VK_U] = 1
+    keymap[ROT.VK_N] = 3
+    keymap[ROT.VK_B] = 5
+    keymap[ROT.VK_Y] = 7
+    keymap
