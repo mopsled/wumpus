@@ -5,8 +5,8 @@ class @Map
   drawFOV: (fov) =>
     drawLitTile x, y, this for [x, y] in fov
 
-  drawAt: (x, y) =>
-    @display.draw x, y, @tiles.get([x, y])
+  drawDarkTile: (x, y) =>
+    @display.draw x, y, @tiles.get([x, y]), "#777", "#222"
 
   randomFloorSpace: ->
     floor = (k for k in @tiles.keys() when @tiles.get(k) is '.')
@@ -30,7 +30,7 @@ class @Map
     wallCoor
 
   drawLitTile = (x, y, map) ->
-    map.display.draw x, y, map.tiles.get([x, y]), '#fff', '#660'
+    map.display.draw x, y, map.tiles.get([x, y]), '#fff', '#000'
 
   adjacentCoordinates = (x, y) ->
     [x + xi, y + yi] for [xi, yi] in ROT.DIRS[8]

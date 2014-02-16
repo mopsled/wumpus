@@ -29,7 +29,7 @@ class @Player
     return if not canMoveToSpace
 
     fov = @calculateFOV()
-    game.map.drawAt x, y, game.display for [x, y] in fov
+    game.map.drawDarkTile x, y, game.display for [x, y] in fov
 
     # TODO: FOV for each space is being calculated twice. It can be
     # moved to an instance variable to avoid this

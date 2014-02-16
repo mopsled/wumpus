@@ -8,7 +8,7 @@
     function Map(display) {
       this.display = display;
       this.isAFloorSpace = __bind(this.isAFloorSpace, this);
-      this.drawAt = __bind(this.drawAt, this);
+      this.drawDarkTile = __bind(this.drawDarkTile, this);
       this.drawFOV = __bind(this.drawFOV, this);
       this.tiles = generateTiles();
     }
@@ -23,8 +23,8 @@
       return _results;
     };
 
-    Map.prototype.drawAt = function(x, y) {
-      return this.display.draw(x, y, this.tiles.get([x, y]));
+    Map.prototype.drawDarkTile = function(x, y) {
+      return this.display.draw(x, y, this.tiles.get([x, y]), "#777", "#222");
     };
 
     Map.prototype.randomFloorSpace = function() {
@@ -92,7 +92,7 @@
     };
 
     drawLitTile = function(x, y, map) {
-      return map.display.draw(x, y, map.tiles.get([x, y]), '#fff', '#660');
+      return map.display.draw(x, y, map.tiles.get([x, y]), '#fff', '#000');
     };
 
     adjacentCoordinates = function(x, y) {

@@ -49,7 +49,7 @@
       fov = this.calculateFOV();
       for (_i = 0, _len = fov.length; _i < _len; _i++) {
         _ref = fov[_i], x = _ref[0], y = _ref[1];
-        game.map.drawAt(x, y, game.display);
+        game.map.drawDarkTile(x, y, game.display);
       }
       this.coor = movedCoor;
       game.map.drawFOV(this.calculateFOV(), game.display);
