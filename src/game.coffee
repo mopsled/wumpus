@@ -3,7 +3,6 @@ class @Game
 
   init: ->
     @map = new Map(@display)
-    @map.drawAll()
     @startEngine()
 
   startEngine: ->

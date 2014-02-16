@@ -13,17 +13,6 @@
       this.tiles = generateTiles();
     }
 
-    Map.prototype.drawAll = function() {
-      var x, y, _i, _len, _ref, _ref1, _results;
-      _ref = this.tiles.keys();
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        _ref1 = _ref[_i], x = _ref1[0], y = _ref1[1];
-        _results.push(this.drawAt([x, y]));
-      }
-      return _results;
-    };
-
     Map.prototype.drawFOV = function(fov) {
       var x, y, _i, _len, _ref, _results;
       _results = [];

@@ -7,7 +7,6 @@
 
     Game.prototype.init = function() {
       this.map = new Map(this.display);
-      this.map.drawAll();
       return this.startEngine();
     };
 

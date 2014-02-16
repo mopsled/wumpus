@@ -2,9 +2,6 @@ class @Map
   constructor: (@display) ->
     @tiles = generateTiles()
 
-  drawAll: ->
-    @drawAt [x, y] for [x, y] in @tiles.keys()
-
   drawFOV: (fov) =>
     drawLitTile x, y, this for [x, y] in fov
 
