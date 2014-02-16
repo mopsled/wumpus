@@ -3,7 +3,7 @@
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   this.Map = (function() {
-    var adjacentCoordinates, drawLitTile, flatten, generateTiles, generateWalls;
+    var adjacentCoordinates, flatten, generateTiles, generateWalls;
 
     function Map(display) {
       this.display = display;
@@ -14,17 +14,28 @@
     }
 
     Map.prototype.drawFOV = function(fov) {
-      var x, y, _i, _len, _ref, _results;
+      var c, inFOV, t, _i, _len, _ref, _results;
+      _ref = (function() {
+        var _j, _len, _results1;
+        _results1 = [];
+        for (_j = 0, _len = fov.length; _j < _len; _j++) {
+          c = fov[_j];
+          _results1.push(this.tiles.get(c));
+        }
+        return _results1;
+      }).call(this);
       _results = [];
-      for (_i = 0, _len = fov.length; _i < _len; _i++) {
-        _ref = fov[_i], x = _ref[0], y = _ref[1];
-        _results.push(drawLitTile(x, y, this));
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        t = _ref[_i];
+        _results.push(t.draw(this.display, inFOV = true));
       }
       return _results;
     };
 
     Map.prototype.drawDarkTile = function(x, y) {
-      return this.display.draw(x, y, this.tiles.get([x, y]), "#777", "#222");
+      var tile;
+      tile = this.tiles.get([x, y]);
+      return tile.draw(this.display);
     };
 
     Map.prototype.randomFloorSpace = function() {
@@ -35,7 +46,7 @@
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           k = _ref[_i];
-          if (this.tiles.get(k) === '.') {
+          if (this.tiles.get(k) instanceof Floor) {
             _results.push(k);
           }
         }
@@ -45,28 +56,28 @@
     };
 
     Map.prototype.isAFloorSpace = function(x, y) {
-      return this.tiles.get([x, y]) === '.';
+      return this.tiles.get([x, y]) instanceof Floor;
     };
 
     generateTiles = function() {
-      var coor, differ, tiles, _i, _len, _ref;
+      var digger, tiles, x, y, _i, _len, _ref, _ref1;
       tiles = new ArrayDictionary;
-      differ = new ROT.Map.Digger();
-      differ.create(function(x, y, wall) {
+      digger = new ROT.Map.Digger();
+      digger.create(function(x, y, wall) {
         if (!wall) {
-          return tiles.set([x, y], '.');
+          return tiles.set([x, y], new Floor(x, y));
         }
       });
       _ref = generateWalls(tiles);
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        coor = _ref[_i];
-        tiles.set(coor, '#');
+        _ref1 = _ref[_i], x = _ref1[0], y = _ref1[1];
+        tiles.set([x, y], new Wall(x, y));
       }
       return tiles;
     };
 
     generateWalls = function(floor) {
-      var adjacent, floorCoor, wallCoor, x, y;
+      var adjacent, c, floorCoor, wallCoor, x, y;
       floorCoor = floor.keys();
       adjacent = flatten((function() {
         var _i, _len, _ref, _results;
@@ -78,21 +89,17 @@
         return _results;
       })());
       wallCoor = (function() {
-        var _i, _len, _ref, _results;
+        var _i, _len, _results;
         _results = [];
         for (_i = 0, _len = adjacent.length; _i < _len; _i++) {
-          _ref = adjacent[_i], x = _ref[0], y = _ref[1];
-          if (floor.get([x, y]) !== '.') {
-            _results.push([x, y]);
+          c = adjacent[_i];
+          if (!(floor.get(c) instanceof Floor)) {
+            _results.push(c);
           }
         }
         return _results;
       })();
       return wallCoor;
-    };
-
-    drawLitTile = function(x, y, map) {
-      return map.display.draw(x, y, map.tiles.get([x, y]), '#fff', '#000');
     };
 
     adjacentCoordinates = function(x, y) {

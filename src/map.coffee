@@ -3,34 +3,32 @@ class @Map
     @tiles = generateTiles()
 
   drawFOV: (fov) =>
-    drawLitTile x, y, this for [x, y] in fov
+    t.draw(@display, inFOV=true) for t in (@tiles.get(c) for c in fov)
 
   drawDarkTile: (x, y) =>
-    @display.draw x, y, @tiles.get([x, y]), "#777", "#222"
+    tile = @tiles.get([x, y])
+    tile.draw(@display)
 
   randomFloorSpace: ->
-    floor = (k for k in @tiles.keys() when @tiles.get(k) is '.')
+    floor = (k for k in @tiles.keys() when @tiles.get(k) instanceof Floor)
     floor.randomize()[0]
 
   isAFloorSpace: (x, y) =>
-    @tiles.get([x, y]) == '.'
+    @tiles.get([x, y]) instanceof Floor
 
   generateTiles = () ->
     tiles = new ArrayDictionary
-    differ = new ROT.Map.Digger()
-    differ.create (x, y, wall) ->
-      tiles.set [x, y], '.' if not wall
-    tiles.set coor, '#' for coor in generateWalls tiles
+    digger = new ROT.Map.Digger()
+    digger.create (x, y, wall) ->
+      tiles.set [x, y], new Floor(x, y) if not wall
+    tiles.set [x, y], new Wall(x, y) for [x, y] in generateWalls tiles
     tiles
 
   generateWalls = (floor) ->
     floorCoor = floor.keys()
     adjacent = flatten (adjacentCoordinates(x, y) for [x, y] in floorCoor)
-    wallCoor = ([x, y] for [x, y] in adjacent when floor.get([x, y]) != '.')
+    wallCoor = (c for c in adjacent when floor.get(c) not instanceof Floor)
     wallCoor
-
-  drawLitTile = (x, y, map) ->
-    map.display.draw x, y, map.tiles.get([x, y]), '#fff', '#000'
 
   adjacentCoordinates = (x, y) ->
     [x + xi, y + yi] for [xi, yi] in ROT.DIRS[8]
