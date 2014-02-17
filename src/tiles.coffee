@@ -12,16 +12,23 @@ class Tile
       display.draw @x, @y, @symbol, darken(@fcolor, 0.8), darken(@bcolor, 0.8)
 
 class @Floor extends Tile
-  fcolor: '#ddd'
-  bcolor: '#111'
   symbol: '.'
 
+  constructor: (@x, @y) ->
+    @fcolor = darken '#ddd', ROT.RNG.getUniform() * 0.2
+    @bcolor = darken '#111', ROT.RNG.getUniform() * 0.2
+
 class @Wall extends Tile
-  fcolor: '#222'
-  bcolor: '#bbb'
   symbol: '#'
 
+  constructor: (@x, @y) ->
+    @fcolor = darken '#222', ROT.RNG.getUniform() * 0.2
+    @bcolor = darken '#bbb', ROT.RNG.getUniform() * 0.4
+
+asArray = (hex, callback) ->
+  a = ROT.Color.fromString(hex)
+  ROT.Color.toHex callback(a)
+
 darken = (color, amount) ->
-  colorArray = ROT.Color.fromString(color)
-  darkened = ROT.Color.interpolate colorArray, [0, 0, 0], amount
-  ROT.Color.toHex(darkened)
+  asArray color, (a) ->
+    ROT.Color.interpolate a, [0, 0, 0], amount
