@@ -25,14 +25,14 @@
           return _results;
         })();
         hasFloor = tileValues.some(function(element) {
-          return element === '.';
+          return element instanceof Floor;
         });
         return hasFloor.should.be.ok;
       });
       return it('should have wall tiles', function() {
         var hasWall;
         hasWall = tileValues.some(function(element) {
-          return element === '#';
+          return element instanceof Wall;
         });
         return hasWall.should.be["true"];
       });
