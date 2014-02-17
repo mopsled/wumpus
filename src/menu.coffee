@@ -2,7 +2,7 @@ root = exports ? this
 
 class @Menu
   constructor: ->
-    @display = new ROT.Display()
+    @display = new ROT.Display({fontSize: 17})
     document.body.appendChild @display.getContainer()
     @drawMenu()
     window.addEventListener 'keydown', this

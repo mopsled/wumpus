@@ -6,7 +6,9 @@
 
   this.Menu = (function() {
     function Menu() {
-      this.display = new ROT.Display();
+      this.display = new ROT.Display({
+        fontSize: 17
+      });
       document.body.appendChild(this.display.getContainer());
       this.drawMenu();
       window.addEventListener('keydown', this);
