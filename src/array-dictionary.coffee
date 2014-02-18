@@ -22,7 +22,4 @@ class @ArrayDictionary
 
   arrayify = (string) ->
     parts = string.split ','
-    (if isNumber(p) then Number(p) else p) for p in parts
-
-  isNumber = (n) ->
-    !isNaN(parseFloat(n)) && isFinite(n)
+    (if Util.isNumber(p) then Number(p) else p) for p in parts
