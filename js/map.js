@@ -3,7 +3,7 @@
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   this.Map = (function() {
-    var adjacentCoordinates, flatten, generateTiles, generateWalls;
+    var adjacentCoordinates, flatten, generateTiles;
 
     function Map(display) {
       this.display = display;
@@ -60,46 +60,15 @@
     };
 
     generateTiles = function() {
-      var digger, tiles, x, y, _i, _len, _ref, _ref1;
+      var digger, tiles;
       tiles = new ArrayDictionary;
       digger = new ROT.Map.Digger();
       digger.create(function(x, y, wall) {
-        if (!wall) {
-          return tiles.set([x, y], new Floor(x, y));
-        }
+        var tile;
+        tile = (wall ? new Wall(x, y) : new Floor(x, y));
+        return tiles.set([x, y], tile);
       });
-      _ref = generateWalls(tiles);
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        _ref1 = _ref[_i], x = _ref1[0], y = _ref1[1];
-        tiles.set([x, y], new Wall(x, y));
-      }
       return tiles;
-    };
-
-    generateWalls = function(floor) {
-      var adjacent, c, floorCoor, wallCoor, x, y;
-      floorCoor = floor.keys();
-      adjacent = flatten((function() {
-        var _i, _len, _ref, _results;
-        _results = [];
-        for (_i = 0, _len = floorCoor.length; _i < _len; _i++) {
-          _ref = floorCoor[_i], x = _ref[0], y = _ref[1];
-          _results.push(adjacentCoordinates(x, y));
-        }
-        return _results;
-      })());
-      wallCoor = (function() {
-        var _i, _len, _results;
-        _results = [];
-        for (_i = 0, _len = adjacent.length; _i < _len; _i++) {
-          c = adjacent[_i];
-          if (!(floor.get(c) instanceof Floor)) {
-            _results.push(c);
-          }
-        }
-        return _results;
-      })();
-      return wallCoor;
     };
 
     adjacentCoordinates = function(x, y) {

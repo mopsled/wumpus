@@ -20,15 +20,9 @@ class @Map
     tiles = new ArrayDictionary
     digger = new ROT.Map.Digger()
     digger.create (x, y, wall) ->
-      tiles.set [x, y], new Floor(x, y) if not wall
-    tiles.set [x, y], new Wall(x, y) for [x, y] in generateWalls tiles
+      tile = (if wall then new Wall(x, y) else new Floor(x, y))
+      tiles.set [x, y], tile
     tiles
-
-  generateWalls = (floor) ->
-    floorCoor = floor.keys()
-    adjacent = flatten (adjacentCoordinates(x, y) for [x, y] in floorCoor)
-    wallCoor = (c for c in adjacent when floor.get(c) not instanceof Floor)
-    wallCoor
 
   adjacentCoordinates = (x, y) ->
     [x + xi, y + yi] for [xi, yi] in ROT.DIRS[8]
