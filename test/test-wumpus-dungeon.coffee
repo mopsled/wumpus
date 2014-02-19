@@ -1,7 +1,11 @@
 describe 'WumpusDungeon', ->
-  dungeon = new WumpusDungeon()
-  it 'returns tiles', ->
-    returnedTile = false
+  dungeon = new WumpusDungeon 10
+  it 'should return lots of tiles', ->
+    count = 0
     dungeon.create (x, y) ->
-      returnedTile = true
-    returnedTile.should.be.true
+      count++
+    count.should.be.above(10)
+  it 'should return valid coordinates', ->
+    dungeon.create (x, y) ->
+      Util.isNumber(x).should.be.true
+      Util.isNumber(y).should.be.true

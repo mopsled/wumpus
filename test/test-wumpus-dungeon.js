@@ -2,14 +2,20 @@
 (function() {
   describe('WumpusDungeon', function() {
     var dungeon;
-    dungeon = new WumpusDungeon();
-    return it('returns tiles', function() {
-      var returnedTile;
-      returnedTile = false;
+    dungeon = new WumpusDungeon(10);
+    it('should return lots of tiles', function() {
+      var count;
+      count = 0;
       dungeon.create(function(x, y) {
-        return returnedTile = true;
+        return count++;
       });
-      return returnedTile.should.be["true"];
+      return count.should.be.above(10);
+    });
+    return it('should return valid coordinates', function() {
+      return dungeon.create(function(x, y) {
+        Util.isNumber(x).should.be["true"];
+        return Util.isNumber(y).should.be["true"];
+      });
     });
   });
 
